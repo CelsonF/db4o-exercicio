@@ -12,6 +12,10 @@ namespace atividadeBDO_2
         public static void Main(string[] args)
         {
 
+            string livroAutor;
+            string livroEditora;
+            string livroBor;
+
             //Registro de autores,livros e editoras
             Autor oda = new Autor(1, "Eiichiro Oda");
             Autor akiraToriyama = new Autor(2, "Akira Toriyama");
@@ -51,10 +55,14 @@ namespace atividadeBDO_2
             Console.WriteLine("Buscando todos os Livros:");
             services.RetornarLivros();
 
-
-
+            Console.WriteLine("\nPressione alguma tecla para ir para próxima parte  do teste da aplicação.\n");
             Console.ReadKey();
 
+            Console.WriteLine("\nAgora digite o nome de uma Editora para verificarmos se iremos encotra-la");
+            livroEditora = Console.ReadLine();
+            services.RetornarLivrosEditora(livroEditora);
+
+            Console.ReadKey();
         }
     }
 }

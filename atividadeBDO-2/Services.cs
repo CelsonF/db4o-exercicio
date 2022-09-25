@@ -17,9 +17,30 @@ namespace atividadeBDO_2
             return livros.Where(livro => livro.autor.codigo == autor.codigo);
         }
 
-        public IEnumerable<Livro> RetornarLivrosEditora(Editora editora)
+        public void RetornarLivrosEditora(string editora)
         {
-            return livros.Where(livro => livro.editora.codigo == editora.codigo);
+            IObjectContainer dataBase = Db4oFactory.OpenFile(pathName);
+            try
+            {
+                var result = from Livro livro in dataBase
+                             where livro.editora.nome == editora
+                             select livro;
+
+
+                Console.WriteLine("Encontramos os seguintes livros da editora {0}:",editora);
+                foreach (Livro livros in result)
+                    Console.WriteLine("{0} - {1} - {2}",livros.editora.codigo, livros.editora.nome,livros.nome);
+
+
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine("Estamos com erro ao Imprimir os livros - {0}", error);
+            }
+            finally
+            {
+                dataBase.Close();
+            }
         }
 
         public IEnumerable<Livro> OrdenarLivrosData()
@@ -43,12 +64,12 @@ namespace atividadeBDO_2
             {
                 dataBase.Close();
             }
-        }
+}
 
         public static void ListResult(IDb4oLinqQuery<Livro> result) 
         {
             foreach (Livro livros in result)
-                Console.WriteLine("{0} - {1} - {2} - {3}", livros.codigo, livros.nome, livros.editora.nome, livros.ano);
+                Console.WriteLine("{0} - {1} - {2} - {3} - {4}", livros.codigo, livros.nome, livros.autor.nome ,livros.editora.nome, livros.ano);
         }
 
         public IEnumerable<Autor> RetornarAutores()
